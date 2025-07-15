@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devbook-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: devbook
+  template:
+    metadata:
+      labels:
+        app: devbook
+    spec:
+      containers:
+      - name: devbook
+        image: <your-repo>/devbook:latest
+        ports:
+        - containerPort: 3000

@@ -1,0 +1,12 @@
+{
+  "name": "devbook",
+  "version": "1.0.0",
+  "description": "DevBook journal app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
