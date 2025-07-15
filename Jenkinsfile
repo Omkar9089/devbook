@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/your-user/devbook.git'
+        git 'https://github.com/Omkar9089/devbook.git', credentialsId: 'github-pat'
       }
     }
     stage('Build Docker Image') {
