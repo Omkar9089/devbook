@@ -1,23 +1,27 @@
 pipeline {
-  agent any
-  stages {
-    stage('Checkout') {
-      steps {
-        git url: 'https://github.com/Omkar9089/devbook.git', credentialsId: 'github-pat' 
-      }
+    agent any
+
+    environment {
+        IMAGE_NAME = 'omkar9089/devbook:latest'
     }
-    stage('Build Docker Image') {
-      steps {
-        sh 'docker build -t <your-repo>/devbook:latest .'
-      }
-    }
-    stage('Push to DockerHub/ECR') {
-      steps {
-        withCredentials([string(credentialsId: 'dockerhub-token', variable: 'DOCKER_TOKEN')]) {
-          sh 'echo $DOCKER_TOKEN | docker login -u your-username --password-stdin'
-          sh 'docker push <your-repo>/devbook:latest'
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("${IMAGE_NAME}")
+                }
+            }
         }
-      }
+
+        stage('Push to DockerHub') {
+            steps {
+                script {
+                    withDockerRegistry([credentialsId: 'dockerhub-creds', url: '']) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
     }
-  }
 }
